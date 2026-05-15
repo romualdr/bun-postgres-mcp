@@ -1,0 +1,14 @@
+diff --git a/dist/src-IKPjmxu7.mjs b/dist/src-IKPjmxu7.mjs
+index 53dd711b35d97e6c6db509d8d016293ad4c7c1b1..6fc0298599f155f9ddb89e82a0bf784acaaf4543 100644
+--- a/dist/src-IKPjmxu7.mjs
++++ b/dist/src-IKPjmxu7.mjs
+@@ -1,5 +1,8 @@
+ import * as z from "zod/v4";
+-import { Validator } from "@cfworker/json-schema";
++let Validator;
++try {
++	Validator = (await import("@cfworker/json-schema")).Validator;
++} catch (e) {}
+ 
+ //#region rolldown:runtime
+ var __create = Object.create;

@@ -1,0 +1,35 @@
+{
+  "name": "bun-postgres-mcp",
+  "version": "0.0.1",
+  "module": "index.ts",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romualdr/bun-postgres-mcp.git"
+  },
+  "packageManager": "bun@1.3.14",
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0-alpha.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^6"
+  },
+  "bin": {
+    "bun-postgres-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "patchedDependencies": {
+    "@modelcontextprotocol/server@2.0.0-alpha.2": ".patches/@modelcontextprotocol%2Fserver@2.0.0-alpha.2.patch"
+  }
+}
