@@ -1,5 +1,4 @@
 import { McpServer, StdioServerTransport } from '@modelcontextprotocol/server'
-import { Glob } from 'bun'
 import { AccessMode, type RegisterCommand } from './constants'
 import { get_parameters } from './lib/args'
 import { logger as Logger } from './lib/logger'
@@ -14,11 +13,15 @@ const mcp = new McpServer({
   version: '1.0.0',
 })
 
-const commands: Array<RegisterCommand> = []
-for await (const file of new Glob('./src/commands/*.ts').scan('.')) {
-  const { register } = await import(`../${file}`)
-  commands.push(register)
-}
+const commands: RegisterCommand[] = await Promise.all([
+  import('./commands/analyze_db_health.ts').then((m) => m.register),
+  import('./commands/execute_sql.ts').then((m) => m.register),
+  import('./commands/explain_query.ts').then((m) => m.register),
+  import('./commands/get_object_details.ts').then((m) => m.register),
+  import('./commands/get_top_queries.ts').then((m) => m.register),
+  import('./commands/list_objects.ts').then((m) => m.register),
+  import('./commands/list_schemas.ts').then((m) => m.register),
+])
 
 export const run = async () => {
   const args = get_parameters()
