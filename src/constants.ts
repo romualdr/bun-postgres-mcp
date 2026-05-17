@@ -6,6 +6,7 @@ export const USAGE = `
 Usage: bun-postgres-mcp [options] [DATABASE_URL]
 
 Options:
+  --help (-h)                        Show this help message and exit
   --mode [restricted|unrestricted]   Set the access mode (default: restricted)
   --anonymize                        Redact sensitive fields in execute_sql results
 

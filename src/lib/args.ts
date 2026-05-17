@@ -2,30 +2,30 @@ import { parseArgs } from 'util'
 import { AccessMode } from '../constants'
 import { print_usage } from './utils'
 
-const args = parseArgs({
-  args: Bun.argv.slice(2),
-  allowPositionals: true,
-  options: {
-    help: {
-      type: 'boolean',
-      short: 'h',
+export const get_parameters = (argv?: string[]) => {
+  const { values, positionals } = parseArgs({
+    args: argv ?? Bun.argv.slice(2),
+    allowPositionals: true,
+    options: {
+      help: {
+        type: 'boolean',
+        short: 'h',
+      },
+      mode: {
+        type: 'string',
+        choices: [AccessMode.RESTRICTED, AccessMode.UNRESTRICTED],
+        default: AccessMode.RESTRICTED,
+      },
+      anonymize: { type: 'boolean', default: false },
+      ssl: { type: 'boolean', default: false },
     },
-    mode: {
-      type: 'string',
-      choices: [AccessMode.RESTRICTED, AccessMode.UNRESTRICTED],
-      default: AccessMode.RESTRICTED,
-    },
-    anonymize: { type: 'boolean', default: false },
-    ssl: { type: 'boolean', default: false },
-  },
-})
+  })
 
-export const get_parameters = () => {
   const params = {
-    ...args.values,
-    dburi: args.positionals[0] || process.env.DATABASE_URL || '',
+    ...values,
+    dburi: positionals[0] || process.env.DATABASE_URL || '',
     get restricted() {
-      return args.values.mode === AccessMode.RESTRICTED
+      return values.mode === AccessMode.RESTRICTED
     },
   }
 
